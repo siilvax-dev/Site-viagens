@@ -1,0 +1,561 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Nossas Viagens</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: hero with the couple's time together, a route strip that doubles as progress, then one boarding pass per destination with a tear-off stub that takes an animated stamp. */
+:root {
+  --bg: #EDF0F6;
+  --card: #FFFFFF;
+  --fg: #111B2C;
+  --muted: #566176;
+  --line: #C9D1DF;
+  --rose: #CF3A5F;
+  --on-band: #FFFFFF;
+  --b-us: #3F45A0;
+  --b-ca: #B3342F;
+  --b-ak: #197E6C;
+  --b-it: #2B7549;
+  --b-fi: #2A74A4;
+  --b-fr: #9C3768;
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1525;
+    --card: #152036;
+    --fg: #EAF0F9;
+    --muted: #98A5BB;
+    --line: #2A3A56;
+    --rose: #FF7E9B;
+    --on-band: #0D1525;
+    --b-us: #9A9EF2;
+    --b-ca: #F0716B;
+    --b-ak: #46C9AE;
+    --b-it: #5CC688;
+    --b-fi: #7DC4F0;
+    --b-fr: #EC86B5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1525;
+  --card: #152036;
+  --fg: #EAF0F9;
+  --muted: #98A5BB;
+  --line: #2A3A56;
+  --rose: #FF7E9B;
+  --on-band: #0D1525;
+  --b-us: #9A9EF2;
+  --b-ca: #F0716B;
+  --b-ak: #46C9AE;
+  --b-it: #5CC688;
+  --b-fi: #7DC4F0;
+  --b-fr: #EC86B5;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-block: 24px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1040px; margin-inline: auto; display: flex; flex-direction: column; gap: 48px; }
+.lbl {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; border-radius: 4px; }
+
+/* Hero */
+.hero { position: relative; display: flex; flex-direction: column; gap: 28px; padding-top: 24px; }
+.flight-path { position: absolute; right: 0; top: 0; width: min(520px, 70%); height: auto; color: var(--line); pointer-events: none; z-index: 0; overflow: visible; }
+.hero > *:not(.flight-path) { position: relative; z-index: 1; }
+.names { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rose); }
+h1 {
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-size: clamp(2.5rem, 8vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 11ch;
+  text-wrap: balance;
+}
+h1 em { font-style: normal; color: var(--rose); }
+.lead { max-width: 52ch; color: var(--muted); font-size: 1.08rem; margin: 0; }
+
+.together { display: flex; flex-direction: column; gap: 14px; max-width: 640px; }
+.together-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; border-top: 2px solid var(--fg); padding-top: 14px; }
+.unit { display: flex; flex-direction: column; min-width: 0; }
+.unit b {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 9vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.together-notes { display: flex; flex-direction: column; gap: 2px; }
+.together-note { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.together-note.next { color: var(--rose); }
+
+/* Route strip */
+.route { display: flex; flex-direction: column; gap: 14px; }
+.route-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+.passport-count { font-family: var(--font-mono); font-size: 0.82rem; font-variant-numeric: tabular-nums; color: var(--muted); }
+.passport-count.complete { color: var(--rose); }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--fg);
+  background: var(--card); border: 1px solid var(--line); border-radius: 999px;
+  padding: 8px 16px 8px 10px; font-weight: 500; font-size: 0.92rem;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.chip:hover { border-color: var(--band); }
+.chip .dot {
+  width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--band); display: grid; place-items: center; flex: none;
+  transition: background-color 200ms ease;
+}
+.chip .dot svg { width: 10px; height: 10px; stroke: var(--on-band); opacity: 0; transition: opacity 200ms ease; }
+.chip.done .dot { background: var(--band); }
+.chip.done .dot svg { opacity: 1; }
+
+/* Passes */
+h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 4vw, 2.4rem); letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
+.section-sub { margin: 6px 0 0; color: var(--muted); max-width: 54ch; }
+.passes-wrap { display: flex; flex-direction: column; gap: 28px; }
+.passes { display: flex; flex-direction: column; gap: 28px; }
+
+.pass {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 244px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  color: var(--fg);
+  scroll-margin-top: 20px;
+}
+.bandbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--band);
+  color: var(--on-band);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 9px 20px;
+}
+.pass-main { display: flex; flex-direction: column; min-width: 0; }
+.pass-body { display: flex; flex-direction: column; gap: 22px; padding: 22px 24px 26px; }
+.country { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.02; letter-spacing: -0.025em; margin: 0; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px 24px; }
+.fact { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.fact span:last-child { font-weight: 500; }
+.stops { display: flex; flex-direction: column; gap: 8px; }
+.stops ul { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.stop { display: inline-flex; align-items: baseline; gap: 8px; border: 1.5px solid var(--band); border-radius: 8px; padding: 4px 10px; font-weight: 500; }
+.stop small { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--muted); }
+.stop.more { border-style: dashed; border-color: var(--line); color: var(--muted); font-weight: 400; }
+.todo { display: flex; flex-direction: column; gap: 8px; }
+.todo ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.todo li { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.todo li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--band); align-self: center; justify-self: center; }
+
+.stub { position: relative; display: flex; flex-direction: column; border-left: 2px dashed var(--line); }
+.stub::before, .stub::after {
+  content: ""; position: absolute; left: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line);
+}
+.stub::before { top: -11px; }
+.stub::after { bottom: -11px; }
+.stub-body { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px 22px 24px; flex: 1; }
+.stub-info { display: flex; flex-direction: column; gap: 12px; width: 100%; min-width: 0; }
+.codes { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-family: var(--font-mono); font-weight: 500; line-height: 1.05; letter-spacing: 0.03em; color: var(--band); }
+.codes span { font-size: 2.6rem; }
+.codes.multi span { font-size: 1.55rem; }
+.codes i { font-style: normal; font-size: 1rem; color: var(--muted); }
+.flight { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
+.barcode {
+  width: 100%; height: 36px; opacity: 0.85;
+  background: repeating-linear-gradient(90deg, var(--fg) 0 2px, transparent 2px 4px, var(--fg) 4px 5px, transparent 5px 9px, var(--fg) 9px 12px, transparent 12px 14px);
+}
+
+/* Stamp */
+.stamp-slot { position: relative; width: 112px; height: 112px; flex: none; }
+.stamp-slot .empty {
+  position: absolute; inset: 8px; border-radius: 50%; border: 2px dashed var(--line); display: grid; place-items: center; text-align: center;
+  font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); line-height: 1.3;
+  transition: opacity 160ms ease;
+}
+.stamp { position: absolute; inset: 0; opacity: 0; transform: rotate(-9deg); color: var(--band); pointer-events: none; }
+.stamp svg { width: 100%; height: 100%; display: block; filter: url(#ink-rough); overflow: visible; }
+.stamp text { font-family: var(--font-mono); fill: currentColor; }
+.pass.done .stamp { opacity: 0.94; }
+.pass.done .stamp-slot .empty { opacity: 0; }
+.pass.just .stamp { animation: slam 640ms cubic-bezier(.2,.8,.2,1) both; }
+.pass.just .stamp-slot::after {
+  content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 3px solid var(--band); opacity: 0; pointer-events: none;
+  animation: shock 720ms ease-out 300ms both;
+}
+.pass.just { animation: thud 640ms ease-out; }
+@keyframes slam {
+  0%   { opacity: 0; transform: rotate(-26deg) scale(2.6); }
+  46%  { opacity: 1; transform: rotate(-9deg) scale(0.9); }
+  62%  { transform: rotate(-9deg) scale(1.06); }
+  80%  { transform: rotate(-9deg) scale(0.985); }
+  100% { opacity: 0.94; transform: rotate(-9deg) scale(1); }
+}
+@keyframes shock {
+  0%   { opacity: 0.55; transform: scale(0.85); }
+  100% { opacity: 0; transform: scale(2.3); }
+}
+@keyframes thud {
+  0%, 40% { transform: translateY(0); }
+  48%     { transform: translateY(3px) scale(0.997); }
+  70%     { transform: translateY(-1px); }
+  100%    { transform: translateY(0); }
+}
+.spark { position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; border-radius: 50%; pointer-events: none; z-index: 2; }
+
+.visit {
+  font: inherit; font-size: 0.85rem; font-weight: 500; align-self: flex-start;
+  color: var(--fg); background: transparent; border: 1.5px solid var(--fg); border-radius: 999px; padding: 8px 16px; cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+.visit:hover { background: var(--fg); color: var(--bg); }
+.visit[aria-pressed="true"] { background: var(--band); border-color: var(--band); color: var(--on-band); }
+
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; border-top: 1px solid var(--line); padding-top: 20px; }
+footer .dedication { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.01em; }
+footer .dedication em { font-style: normal; color: var(--rose); }
+
+@media (max-width: 720px) {
+  .pass { grid-template-columns: minmax(0, 1fr); }
+  .stub { border-left: 0; border-top: 2px dashed var(--line); }
+  .stub::before { top: -11px; left: -11px; }
+  .stub::after { top: -11px; bottom: auto; left: auto; right: -11px; }
+  .stub .bandbar { display: none; }
+  .stub-body { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px 20px; }
+  .flight-path { opacity: 0.6; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pass.just, .pass.just .stamp, .pass.just .stamp-slot::after { animation: none; }
+}
+</style>
+
+<!-- Ink texture for the stamp: wobbles the edges and leaves tiny gaps like a real rubber stamp. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="ink-rough" x="-10%" y="-10%" width="120%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.6" result="m"/>
+    <feComposite in="d" in2="m" operator="in"/>
+  </filter>
+</svg>
+
+<div class="wrap">
+  <header class="hero">
+    <svg class="flight-path" viewBox="0 0 520 190" fill="none" aria-hidden="true">
+      <path id="flight-route" d="M12 172 C 150 -24, 380 -24, 508 150" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 11"/>
+      <circle cx="12" cy="172" r="6" fill="var(--rose)"/>
+      <circle cx="508" cy="150" r="6" fill="var(--rose)"/>
+      <g id="plane" fill="var(--rose)">
+        <path d="M13 0 L-9 -8 L-5 0 L-9 8 Z"/>
+        <animateMotion id="plane-motion" dur="10s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+          <mpath href="#flight-route"/>
+        </animateMotion>
+      </g>
+    </svg>
+    <div class="names">João Pedro &amp; Giovana</div>
+    <h1>Seis destinos, um passaporte pra <em>dois</em>.</h1>
+    <p class="lead">Os lugares que a gente quer conhecer juntos, cada um com seu cartão de embarque. As cidades e os passeios são ideias para começar. O roteiro final a gente decide lado a lado.</p>
+
+    <div class="together">
+      <span class="lbl">Juntos desde 06.10.2023</span>
+      <div class="together-row">
+        <div class="unit"><b id="t-anos">0</b><span class="lbl" id="l-anos">anos</span></div>
+        <div class="unit"><b id="t-meses">0</b><span class="lbl" id="l-meses">meses</span></div>
+        <div class="unit"><b id="t-dias">0</b><span class="lbl" id="l-dias">dias</span></div>
+      </div>
+      <div class="together-notes">
+        <span class="together-note" id="t-total"></span>
+        <span class="together-note next" id="t-next"></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="route" aria-labelledby="route-title">
+    <div class="route-head">
+      <div>
+        <h2 id="route-title">Para onde vamos</h2>
+        <p class="section-sub">Quando a gente voltar de um lugar, é só marcar como visitado e ganhar o carimbo no passaporte.</p>
+      </div>
+      <div class="passport-count" id="count">Carimbos: 0 de 6</div>
+    </div>
+    <ul class="chips" id="chips"></ul>
+  </section>
+
+  <main class="passes-wrap">
+    <div class="passes" id="passes"></div>
+  </main>
+
+  <footer>
+    <div class="dedication">Para a Giovana. Do <em>João Pedro</em>.</div>
+    <span class="lbl">Voo NV 0610 · Nossas Viagens</span>
+  </footer>
+</div>
+<div class="sr-only" role="status" aria-live="polite" id="live"></div>
+
+<script>
+(function () {
+  var START = { y: 2023, m: 10, d: 6 };
+  var DEST = [
+    { id: 'us', country: 'Estados Unidos', more: true,
+      stops: [{ city: 'Orlando', code: 'MCO' }],
+      when: 'Novembro a abril, com menos calor e menos chuva',
+      todo: ['Passar dias inteiros nos parques da Disney', 'Conhecer os parques da Universal Orlando', 'Visitar o Kennedy Space Center, perto de Orlando'] },
+    { id: 'ca', country: 'Canadá', more: false,
+      stops: [{ city: 'Toronto', code: 'YYZ' }],
+      when: 'Junho a outubro',
+      todo: ['Subir na CN Tower perto do entardecer', 'Fazer um bate-volta às Cataratas do Niágara', 'Passear pelo St. Lawrence Market e pelo Distillery District'] },
+    { id: 'ak', country: 'Alasca', more: false,
+      stops: [{ city: 'Anchorage', code: 'ANC' }],
+      when: 'Fim de agosto a abril, para ver a aurora',
+      todo: ['Esperar a aurora boreal juntos', 'Conhecer o Parque Nacional de Denali', 'Passear de barco entre geleiras'] },
+    { id: 'it', country: 'Itália', more: true,
+      stops: [{ city: 'Roma', code: 'FCO' }, { city: 'Milão', code: 'MXP' }, { city: 'Veneza', code: 'VCE' }],
+      when: 'Abril a junho, ou setembro e outubro',
+      todo: ['Entrar no Coliseu e andar pelo Fórum, em Roma', 'Ver o Duomo e a Galleria Vittorio Emanuele II, em Milão', 'Passear de gôndola pelos canais de Veneza'] },
+    { id: 'fi', country: 'Finlândia', more: false,
+      stops: [{ city: 'Rovaniemi', code: 'RVN' }],
+      when: 'Setembro a março',
+      todo: ['Dormir num iglu de vidro sob a aurora', 'Passear de trenó puxado por huskies', 'Fazer uma sauna finlandesa de verdade'] },
+    { id: 'fr', country: 'França', more: true,
+      stops: [{ city: 'Paris', code: 'CDG' }, { city: 'Marselha', code: 'MRS' }],
+      when: 'Abril a junho, ou setembro e outubro',
+      todo: ['Ver a Torre Eiffel acender à noite, em Paris', 'Caminhar pelo Louvre e pelo Sena', 'Conhecer o Vieux-Port e as Calanques, em Marselha'] }
+  ];
+  var KEY = 'nossas-viagens-carimbos';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function load() { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+  var stamps = load();
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function todayIso() { var n = new Date(); return n.getFullYear() + '-' + pad(n.getMonth() + 1) + '-' + pad(n.getDate()); }
+  function plural(n, one, many) { return n === 1 ? one : many; }
+  function el(id) { return document.getElementById(id); }
+
+  /* Tempo juntos e próximo aniversário */
+  (function together() {
+    var now = new Date();
+    var y = now.getFullYear() - START.y;
+    var m = (now.getMonth() + 1) - START.m;
+    var d = now.getDate() - START.d;
+    if (d < 0) { m -= 1; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+    if (m < 0) { y -= 1; m += 12; }
+    var a = Date.UTC(START.y, START.m - 1, START.d);
+    var today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    var total = Math.round((today - a) / 86400000);
+    el('t-anos').textContent = y;
+    el('t-meses').textContent = m;
+    el('t-dias').textContent = d;
+    el('l-anos').textContent = plural(y, 'ano', 'anos');
+    el('l-meses').textContent = plural(m, 'mês', 'meses');
+    el('l-dias').textContent = plural(d, 'dia', 'dias');
+    el('t-total').textContent = total.toLocaleString('pt-BR') + ' dias de história até hoje';
+
+    var year = now.getFullYear();
+    var next = Date.UTC(year, START.m - 1, START.d);
+    if (next < today) { year += 1; next = Date.UTC(year, START.m - 1, START.d); }
+    var left = Math.round((next - today) / 86400000);
+    var anos = year - START.y;
+    el('t-next').textContent = left === 0
+      ? 'Hoje a gente completa ' + anos + ' anos juntos'
+      : (left === 1 ? 'Falta 1 dia' : 'Faltam ' + left + ' dias') + ' para ' + anos + ' anos juntos';
+  })();
+
+  function stampSvg(x) {
+    var top = 'arc-top-' + x.id, bottom = 'arc-bot-' + x.id;
+    return '' +
+    '<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">' +
+      '<defs>' +
+        '<path id="' + top + '" d="M20 60 A40 40 0 0 1 100 60"/>' +
+        '<path id="' + bottom + '" d="M11 60 A49 49 0 0 0 109 60"/>' +
+      '</defs>' +
+      '<circle cx="60" cy="60" r="57" fill="none" stroke="currentColor" stroke-width="2.6"/>' +
+      '<circle cx="60" cy="60" r="53" fill="none" stroke="currentColor" stroke-width="1"/>' +
+      '<circle cx="60" cy="60" r="35" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
+      '<text font-size="8.4" font-weight="500" letter-spacing="2.2" text-anchor="middle"><textPath href="#' + top + '" startOffset="50%">NOSSAS VIAGENS</textPath></text>' +
+      '<text font-size="8.4" font-weight="500" letter-spacing="2" text-anchor="middle"><textPath href="#' + bottom + '" startOffset="50%">' + x.country.toUpperCase() + '</textPath></text>' +
+      '<text x="60" y="53" font-size="8" letter-spacing="1.6" text-anchor="middle">VISITADO</text>' +
+      '<text x="60" y="68" font-size="15" font-weight="500" text-anchor="middle" data-dm></text>' +
+      '<text x="60" y="81" font-size="10" text-anchor="middle" data-yr></text>' +
+    '</svg>';
+  }
+
+  /* Cartões */
+  el('passes').innerHTML = DEST.map(function (x) {
+    var multi = x.stops.length > 1;
+    var codes = x.stops.map(function (s) { return '<span>' + s.code + '</span>'; }).join('<i aria-hidden="true">›</i>');
+    var stopItems = x.stops.map(function (s) { return '<li class="stop">' + s.city + '<small>' + s.code + '</small></li>'; }).join('') +
+      (x.more ? '<li class="stop more">e outros lugares</li>' : '');
+    return '' +
+    '<article class="pass" id="destino-' + x.id + '" aria-labelledby="h-' + x.id + '" style="--band: var(--b-' + x.id + ')">' +
+      '<div class="pass-main">' +
+        '<div class="bandbar"><span>Cartão de embarque</span><span>Nossas Viagens</span></div>' +
+        '<div class="pass-body">' +
+          '<h3 class="country" id="h-' + x.id + '">' + x.country + '</h3>' +
+          '<div class="stops"><span class="lbl">' + (multi || x.more ? 'Paradas' : 'Parada') + '</span><ul>' + stopItems + '</ul></div>' +
+          '<div class="facts">' +
+            '<div class="fact"><span class="lbl">Passageiros</span><span>João Pedro &amp; Giovana</span></div>' +
+            '<div class="fact"><span class="lbl">Origem</span><span>Brasil</span></div>' +
+            '<div class="fact"><span class="lbl">Melhor época</span><span>' + x.when + '</span></div>' +
+            '<div class="fact"><span class="lbl">Assentos</span><span>Lado a lado</span></div>' +
+          '</div>' +
+          '<div class="todo"><span class="lbl">Pra fazer juntos</span><ul>' +
+            x.todo.map(function (t) { return '<li><span>' + t + '</span></li>'; }).join('') +
+          '</ul></div>' +
+        '</div>' +
+      '</div>' +
+      '<aside class="stub" aria-label="Canhoto e carimbo de ' + x.country + '">' +
+        '<div class="bandbar"><span>Voo NV 0610</span><span>Embarque</span></div>' +
+        '<div class="stub-body">' +
+          '<div class="stamp-slot">' +
+            '<div class="empty">Espaço do<br>carimbo</div>' +
+            '<div class="stamp">' + stampSvg(x) + '</div>' +
+          '</div>' +
+          '<div class="stub-info">' +
+            '<div class="codes' + (multi ? ' multi' : '') + '">' + codes + '</div>' +
+            '<div class="flight">NV 0610 · ' + x.country.toUpperCase() + '</div>' +
+            '<div class="barcode" aria-hidden="true"></div>' +
+            '<button type="button" class="visit" id="visit-' + x.id + '" aria-pressed="false" data-id="' + x.id + '">Marcar como visitado</button>' +
+          '</div>' +
+        '</div>' +
+      '</aside>' +
+    '</article>';
+  }).join('');
+
+  /* Rota (navegação e progresso) */
+  el('chips').innerHTML = DEST.map(function (x) {
+    return '<li><a class="chip" id="chip-' + x.id + '" href="#destino-' + x.id + '" data-target="destino-' + x.id + '" style="--band: var(--b-' + x.id + ')">' +
+      '<span class="dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5 L5 9 L9.5 3.5"/></svg></span>' +
+      x.country + '</a></li>';
+  }).join('');
+
+  el('chips').addEventListener('click', function (ev) {
+    var a = ev.target.closest('a[data-target]');
+    if (!a) return;
+    ev.preventDefault();
+    var t = el(a.getAttribute('data-target'));
+    if (t) t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  function paint() {
+    var n = 0;
+    DEST.forEach(function (x) {
+      var card = el('destino-' + x.id);
+      var btn = el('visit-' + x.id);
+      var chip = el('chip-' + x.id);
+      var iso = stamps[x.id];
+      if (iso) {
+        n += 1;
+        var p = iso.split('-');
+        card.classList.add('done');
+        chip.classList.add('done');
+        card.querySelector('[data-dm]').textContent = p[2] + '.' + p[1];
+        card.querySelector('[data-yr]').textContent = p[0];
+        btn.setAttribute('aria-pressed', 'true');
+        btn.textContent = 'Visitado';
+      } else {
+        card.classList.remove('done');
+        chip.classList.remove('done');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.textContent = 'Marcar como visitado';
+      }
+    });
+    var c = el('count');
+    c.textContent = n === DEST.length ? 'Passaporte completo. Seis carimbos, uma história.' : 'Carimbos: ' + n + ' de ' + DEST.length;
+    c.classList.toggle('complete', n === DEST.length);
+  }
+
+  /* Faíscas no impacto do carimbo */
+  function burst(slot, color) {
+    if (reduce || !slot.animate) return;
+    var colors = [color, 'var(--rose)'];
+    for (var i = 0; i < 16; i++) {
+      var s = document.createElement('span');
+      s.className = 'spark';
+      s.style.background = colors[i % 2];
+      slot.appendChild(s);
+      var ang = (Math.PI * 2 * i) / 16 + Math.random() * 0.4;
+      var dist = 52 + Math.random() * 46;
+      var size = 0.6 + Math.random() * 0.9;
+      var anim = s.animate([
+        { transform: 'translate(-50%, -50%) scale(' + size + ')', opacity: 1 },
+        { transform: 'translate(calc(-50% + ' + Math.cos(ang) * dist + 'px), calc(-50% + ' + Math.sin(ang) * dist + 'px)) scale(0)', opacity: 0 }
+      ], { duration: 650 + Math.random() * 250, easing: 'cubic-bezier(.15,.7,.3,1)', fill: 'forwards' });
+      anim.onfinish = (function (node) { return function () { node.remove(); }; })(s);
+    }
+  }
+
+  el('passes').addEventListener('click', function (ev) {
+    var btn = ev.target.closest('.visit');
+    if (!btn) return;
+    var id = btn.getAttribute('data-id');
+    var x = DEST.filter(function (d) { return d.id === id; })[0];
+    var card = el('destino-' + id);
+    if (stamps[id]) {
+      delete stamps[id];
+      card.classList.remove('just');
+      save(stamps);
+      paint();
+      el('live').textContent = 'Carimbo de ' + x.country + ' removido.';
+      return;
+    }
+    stamps[id] = todayIso();
+    save(stamps);
+    card.classList.remove('just');
+    void card.offsetWidth;
+    paint();
+    card.classList.add('just');
+    window.setTimeout(function () { card.classList.remove('just'); }, 1100);
+    window.setTimeout(function () {
+      burst(card.querySelector('.stamp-slot'), 'var(--b-' + id + ')');
+      try { if (navigator.vibrate) navigator.vibrate(14); } catch (e) {}
+    }, reduce ? 0 : 300);
+    el('live').textContent = 'Carimbo de ' + x.country + ' adicionado ao passaporte.';
+  });
+
+  if (reduce) {
+    var motion = el('plane-motion');
+    if (motion && motion.parentNode) motion.parentNode.removeChild(motion);
+    var plane = el('plane');
+    if (plane) plane.setAttribute('transform', 'translate(260 52) rotate(0)');
+  }
+
+  paint();
+})();
+</script>
+
+</body></html>
